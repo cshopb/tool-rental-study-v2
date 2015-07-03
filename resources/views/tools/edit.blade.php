@@ -10,6 +10,4 @@
     {!! Form::model($tool, ['method' => 'PATCH', 'action' => ['ToolsController@update', $tool->id]]) !!}
         @include('tools.partials._form', ['submitButtonText' => 'Edit Tool'])
     {!! Form::close() !!}
-
-    @include('errors._list')
 @endsection

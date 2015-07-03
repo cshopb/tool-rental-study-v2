@@ -8,6 +8,4 @@
     {!! Form::open(['action' => 'ToolsController@store']) !!}
         @include('tools.partials._form', ['submitButtonText' => 'Add Tool'])
     {!! Form::close() !!}
-
-    @include('errors._list')
 @endsection

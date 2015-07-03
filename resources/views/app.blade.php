@@ -10,5 +10,10 @@
     <div class="container">
         @yield('content')
     </div>
+
+    <div class="container">
+        @include('errors._list')
+    </div>
+
 </body>
 </html>

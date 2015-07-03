@@ -42,7 +42,9 @@ class ToolsController extends Controller
      */
     public function store(CreateToolRequest $request)
     {
-        Tool::create($request->all());
+        $tool = new Tool($request->all());
+
+        Auth::user()->tools()->save($tool);
 
         return redirect('tools');
     }
