@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use Illuminate\Support\Facades\Auth;
 
 class User extends Model implements AuthenticatableContract, CanResetPasswordContract {
 
@@ -31,7 +32,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      *
      * @var array
      */
-    protected $hidden = ['password', 'remember_token'];
+    protected $hidden = ['password', 'remember_token', 'role_id'];
 
     /**
      * A user can have many tools.
@@ -45,6 +46,34 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
     public function role()
     {
-        return $this->hasOne('App\Role');
+        return $this->belongsTo('App\Role');
+    }
+
+    public function isAManager()
+    {
+        $role = Auth::user()->role->name;
+
+        if ($role == 'root' || $role == 'sudo')
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public function isAdmin()
+    {
+        $role = Auth::user()->role->name;
+
+        if ($role == 'root')
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }

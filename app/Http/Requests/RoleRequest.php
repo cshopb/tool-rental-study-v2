@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
 
-class CreateToolRequest extends Request {
+class RoleRequest extends Request {
 
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,7 @@ class CreateToolRequest extends Request {
     public function rules()
     {
         return [
-            'name'        => 'required|min:3',
-            'description' => 'required',
+            //
         ];
     }
 }

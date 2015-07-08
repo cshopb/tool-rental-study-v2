@@ -16,9 +16,11 @@ Route::get('/', function () {
 });
 
 /*
- *  this will create all the routs for our Tools controller.
+ *  this will create all the routs for our Tools and Users controller.
  */
 Route::resource('tools', 'ToolsController');
+Route::resource('users', 'UsersController');
+Route::resource('roles', 'RolesController');
 
 // Authentication routes...
 Route::get('auth/login', 'Auth\AuthController@getLogin');

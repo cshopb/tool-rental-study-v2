@@ -16,10 +16,7 @@ class CreateRolesTable extends Migration
             $table->increments('id');
             //I have to declare the foreign key like this so that I can seed it later
             //without assigning a user to the rule.
-            $table->unsignedInteger('user_id')->nullable();
             $table->string('name');
-
-            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

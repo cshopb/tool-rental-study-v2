@@ -2,20 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ToolRequest;
-use App\Tool;
-use Carbon\Carbon;
+use App\Http\Requests\RoleRequest;
+use App\Role;
+use App\User;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 
-class ToolsController extends Controller
-{
+class RolesController extends Controller {
+
     public function __construct()
     {
-        $this->middleware('manager', ['except' => ['index', 'show']]);
+        $this->middleware('admin');
     }
 
     /**
@@ -25,9 +24,10 @@ class ToolsController extends Controller
      */
     public function index()
     {
-        $tools = Tool::latest('published_at')->published()->get();
+        $sudos = Role::find(2)->users;
+        $customers = Role::find(3)->users;
 
-        return view('tools.index')->with('tools', $tools);
+        return view('roles.index')->with(['sudos' => $sudos, 'customers' => $customers]);
     }
 
     /**
@@ -37,67 +37,69 @@ class ToolsController extends Controller
      */
     public function create()
     {
-        return view('tools.create');
+        //
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param ToolRequest $request
      * @return Response
      */
-    public function store(ToolRequest $request)
+    public function store()
     {
-        $tool = new Tool($request->all());
-
-        Auth::user()->tools()->save($tool);
-
-        return redirect('tools');
+        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return Response
      */
     public function show($id)
     {
-        $tool = Tool::findOrFail($id);
-
-        return view('tools.show')->with('tool', $tool);
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return Response
      */
     public function edit($id)
     {
-        $tool = Tool::findOrFail($id);
-        return view('tools.edit')->with('tool', $tool);
+        //
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  int $id
-     * @param ToolRequest $request
+     * @param RoleRequest $request
      * @return Response
      */
-    public function update($id, ToolRequest $request)
+    public function update($id)
     {
-        $tool = Tool::findOrFail($id);
+        $user = User::find($id);
 
-        $tool->update($request->all());
+        if ($user->role_id == 3)
+        {
+            $user->role_id = 2;
+        } else
+        {
+            $user->role_id = 3;
+        }
+
+        $user->save();
+
+        return redirect('/roles');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return Response
      */
     public function destroy($id)
