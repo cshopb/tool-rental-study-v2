@@ -21,7 +21,7 @@
                     <td class="col-md-3 text-left">{!! $user->name !!}</td>
                     <td class="col-md-3 text-left">{!! $user->role->name !!}</td>
                     <td class="col-md-3 text-left">
-                        {!! Form::submit($submitButtonText, ['class' => 'btn-mini '.$buttonType] ) !!}
+                        {!! Form::submit($submitButtonText, ['class' => 'btn btn-xs '.$buttonType] ) !!}
                     </td>
                 {!! Form::close() !!}
             </tr>

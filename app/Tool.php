@@ -61,4 +61,34 @@ class Tool extends Model {
     {
         return $this->belongsTo('App\User');
     }
+
+    /**
+     * get the tags associated with the given tool.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function tags()
+    {
+        /*
+         * withTimestamps will automatically add the current time for the entry.
+         */
+        return $this->belongsToMany('App\Tag')->withTimestamps();
+    }
+
+    /*
+     * Get a list of tag IDs associated with the current tool.
+     *
+     * this will get called for every command that is:
+     * $tool->tagList or $tool->tag_list
+     */
+    /**
+     * @return array
+     */
+    public function getTagListAttribute()
+    {
+        if (isset($this->tags))
+        {
+            return $this->tags->list('id');
+        }
+    }
 }

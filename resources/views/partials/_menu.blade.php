@@ -15,7 +15,6 @@
         <!-- the name of the collapsible menu is: collapseMenu -->
         <div class="collapse navbar-collapse" id="collapseMenu">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="#">Test 1</a></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Test 2 <b class="caret"></b></a>
 
@@ -24,15 +23,18 @@
                         <li><a href="#">Drop Down 2</a></li>
                     </ul>
                 </li>
-                <li><a href="#">Test 3</a></li>
+                <li class="{{ set_active('tools') }}"><a href="/tools">Tools</a></li>
+                @if (Auth::user() != null && Auth::user()->role_id == 1)
+                    <li class="{{ set_active('roles') }}"><a href="/roles">User Permissions</a></li>
+                @endif
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
                 @if ( ! Auth::user())
-                    <li><a href="/auth/login">Login</a></li>
-                    <li><a href="/auth/register">Register</a></li>
+                    <li class="{{ set_active('auth/login') }}"><a href="/auth/login">Login</a></li>
+                    <li class="{{ set_active('auth/register') }}"><a href="/auth/register">Register</a></li>
                 @else
-                    <li><a href="/auth/logout">Logout</a></li>
+                    <li class="{{ set_active('auth/logout') }}"><a href="/auth/logout">Logout</a></li>
                 @endif
             </ul>
         </div>

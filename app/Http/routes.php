@@ -11,16 +11,28 @@
 |
 */
 
-Route::get('/', function () {
-    return view('auth.login');
+use Illuminate\Support\Facades\Route;
+
+Route::get('/', function ()
+{
+    return redirect('/tools');
 });
 
-/*
- *  this will create all the routs for our Tools and Users controller.
- */
+
+// routs for our Tools controller.
 Route::resource('tools', 'ToolsController');
-Route::resource('users', 'UsersController');
-Route::resource('roles', 'RolesController');
+
+// routes for Roles controller
+Route::get('roles', 'RolesController@index');
+Route::patch('roles/{user}', 'RolesController@update');
+
+// route for Tags controller
+Route::get('tags', 'TagsController@index');
+Route::get('tags/create', 'TagsController@create');
+Route::post('tags', 'TagsController@store');
+Route::get('tags/{tags}/edit', 'TagsController@edit');
+Route::patch('tags/{tags}', 'TagsController@update');
+Route::delete('tags/{tags}', 'TagsController@destroy');
 
 // Authentication routes...
 Route::get('auth/login', 'Auth\AuthController@getLogin');
@@ -35,7 +47,7 @@ Route::post('auth/register', 'Auth\AuthController@postRegister');
  * this will make the routs for our authentication.
  *
  * but I used the explicit naming so that I can have a birds eye view straight
- * and that I don't need to go to artisan route:list.
+ * and that I don't need to go to artisan route:list to see the routes.
  */
 //Route::controllers([
 //    'auth' => 'Auth\AuthController',

@@ -2,19 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
+use App\Http\Requests\TagRequest;
+use App\Tag;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-class UsersController extends Controller {
-
-    public function __construct()
-    {
-        $this->middleware('admin');
-    }
-
+class TagsController extends Controller
+{
     /**
      * Display a listing of the resource.
      *
@@ -22,7 +18,9 @@ class UsersController extends Controller {
      */
     public function index()
     {
+        $tags = Tag::all();
 
+        return view('tags.index')->with('tags', $tags);
     }
 
     /**
@@ -32,23 +30,27 @@ class UsersController extends Controller {
      */
     public function create()
     {
-        //
+        return view('tags.create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
+     * @param TagRequest $request
      * @return Response
      */
-    public function store()
+    public function store(TagRequest $request)
     {
-        //
+        $tag = new Tag($request->all());
+        $tag->save();
+
+        return redirect('tags/create');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int $id
+     * @param  int  $id
      * @return Response
      */
     public function show($id)
@@ -59,7 +61,7 @@ class UsersController extends Controller {
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int $id
+     * @param  int  $id
      * @return Response
      */
     public function edit($id)
@@ -70,18 +72,18 @@ class UsersController extends Controller {
     /**
      * Update the specified resource in storage.
      *
-     * @param  int $id
+     * @param  int  $id
      * @return Response
      */
     public function update($id)
     {
-
+        //
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $id
+     * @param  int  $id
      * @return Response
      */
     public function destroy($id)

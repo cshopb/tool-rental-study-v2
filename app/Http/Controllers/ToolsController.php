@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ToolRequest;
+use App\Tag;
 use App\Tool;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -13,6 +14,10 @@ use Illuminate\Support\Facades\Auth;
 
 class ToolsController extends Controller
 {
+
+    /**
+     * Create a new tools controller instance.
+     */
     public function __construct()
     {
         $this->middleware('manager', ['except' => ['index', 'show']]);
@@ -37,7 +42,12 @@ class ToolsController extends Controller
      */
     public function create()
     {
-        return view('tools.create');
+        /*
+         * first argument is the Value for the array and the second is the Key.
+         * In this case the key is the ID and the value will be whatever is in the NAME field.
+         */
+        $tags = Tag::lists('name', 'id');
+        return view('tools.create')->with('tags', $tags);
     }
 
     /**
@@ -48,9 +58,7 @@ class ToolsController extends Controller
      */
     public function store(ToolRequest $request)
     {
-        $tool = new Tool($request->all());
-
-        Auth::user()->tools()->save($tool);
+        $this->createTool($request);
 
         return redirect('tools');
     }
@@ -77,7 +85,9 @@ class ToolsController extends Controller
     public function edit($id)
     {
         $tool = Tool::findOrFail($id);
-        return view('tools.edit')->with('tool', $tool);
+        $tags = Tag::lists('name', 'id');
+
+        return view('tools.edit')->with(['tool' => $tool, 'tags' => $tags]);
     }
 
     /**
@@ -92,6 +102,13 @@ class ToolsController extends Controller
         $tool = Tool::findOrFail($id);
 
         $tool->update($request->all());
+
+        if ($request->input('tag_list') != null)
+        {
+            $this->syncTags($tool, $request->input('tag_list'));
+        }
+
+        return redirect('tools');
     }
 
     /**
@@ -103,5 +120,52 @@ class ToolsController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * Sync up the list of tags in the database.
+     *
+     * @param Tool $tool
+     * @param array $tags
+     * @internal param ToolRequest $request
+     */
+    public function syncTags(Tool $tool, array $tags = null)
+    {
+        $tool->tags()->sync($tags);
+    }
+
+    /*
+     * this whole method was inside STORE method.
+     * when we were cleaning the code we extracted it.
+     *
+     * Save a new tool.
+     *
+     * @param ToolRequest $request
+     * @return mixed
+     */
+    private function createTool(ToolRequest $request)
+    {
+        /*
+         *  create the tool and associate it with the authenticated user.
+         */
+        $tool = Auth::user()->tools()->create($request->all());
+
+        /*
+         * the input('tags') gets the KEYs of the array that is sent. Which are the IDs.
+         *
+         * the attach will associate this tool wit the tags passed trough.
+         */
+        //$tool->tags()->attach($request->input('tag_list'));
+
+        /*
+         * we are not using the top commented command because we made a method
+         * that is doing it for us and it looks cleaner.
+         */
+        if ($request->input('tag_list') != null)
+        {
+            $this->syncTags($tool, $request->input('tag_list'));
+        }
+
+        return $tool;
     }
 }
