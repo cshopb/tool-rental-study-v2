@@ -21,7 +21,8 @@
             <div class="body">{{ $tool->description }}</div>
             @if (Auth::user() != null && Auth::user()->isAManager())
                 <div class="row">
-                    <a href="{{ action('ToolsController@edit', [$tool->id]) }}" role="button" class="btn btn-xs btn-warning">
+                    <a href="{{ action('ToolsController@edit', [$tool->id]) }}" role="button"
+                       class="btn btn-xs btn-warning">
                         Edit
                     </a>
                 </div>

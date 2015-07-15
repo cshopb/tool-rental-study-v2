@@ -15,16 +15,14 @@
         @foreach($tags as $tag)
             <tr>
                 <td class="col-md-9 text-left">{!! $tag->name !!}</td>
-                {!! Form::open(['method' => 'PATCH', 'action' => ['TagsController@update', $tag->id]]) !!}
                 <td class="col-md-2 text-right">
-                    {!! Form::submit('Edit', ['class' => 'btn btn-xs btn-warning']) !!}
+                    <a href="{{ action('TagsController@edit', $tag->id) }}"
+                       role="button" class="btn btn-xs btn-warning">Edit
+                    </a>
                 </td>
-                {!! Form::close() !!}
                 {!! Form::open(['method' => 'DELETE', 'action' => ['TagsController@destroy', $tag->id]]) !!}
                 <td class="col-md-1 text-left">
-                    {!! Form::submit
-                        ('Delete', ['class' => 'btn btn-xs btn-danger'])
-                    !!}
+                    {!! Form::submit('Delete', ['class' => 'btn btn-xs btn-danger']) !!}
                 </td>
                 {!! Form::close() !!}
             </tr>

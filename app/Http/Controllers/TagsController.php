@@ -11,6 +11,11 @@ use App\Http\Controllers\Controller;
 
 class TagsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('manager');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -48,17 +53,6 @@ class TagsController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
@@ -66,18 +60,23 @@ class TagsController extends Controller
      */
     public function edit($id)
     {
-        //
+        $tag = Tag::findOrFail($id);
+
+        return view('tags.edit')->with('tag', $tag);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  int  $id
+     * @param  int $id
+     * @param TagRequest $request
      * @return Response
      */
-    public function update($id)
+    public function update($id, TagRequest $request)
     {
-        //
+        $tag = Tag::findOrFail($id);
+
+        $tag->update($request->all());
     }
 
     /**
@@ -88,6 +87,10 @@ class TagsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $tag = Tag::findOrFail($id);
+
+        $tag->delete();
+
+        return redirect('tags');
     }
 }

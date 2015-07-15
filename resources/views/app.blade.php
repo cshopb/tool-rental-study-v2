@@ -12,6 +12,14 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
 </head>
 <body>
+    <!--
+    csrf means Cross Site Request Forgery
+    this command will add a hidden value to the form and
+    Laravel will protect us. The field will look like this:
+    <input type="hidden" name="_token" value=" csrf_token(); ">
+    the csrf_token is generated for us.
+    -->
+    {!! csrf_field() !!}
 
     @include('partials._menu')
 

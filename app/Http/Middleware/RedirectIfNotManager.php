@@ -15,7 +15,7 @@ class RedirectIfNotManager
      */
     public function handle($request, Closure $next)
     {
-        if ( ! $request->user()->isAManager())
+        if ($request->user() == null ||  ! $request->user()->isAManager())
         {
             return redirect('tools');
         }
