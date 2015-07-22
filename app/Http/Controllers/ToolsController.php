@@ -23,7 +23,7 @@ class ToolsController extends Controller {
      */
     public function __construct()
     {
-        $this->middleware('manager', ['except' => ['index', 'show']]);
+        $this->middleware('manager', ['except' => ['index', 'show', 'showImage']]);
     }
 
     /**

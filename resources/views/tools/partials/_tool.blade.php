@@ -1,4 +1,12 @@
 <div class="thumbnail">
+    @if (Auth::user() != null && Auth::user()->isAManager())
+        <p>
+            <a href="{{ action('ToolsController@edit', [$tool->id]) }}" role="button"
+               class="btn btn-md btn-warning">
+                Edit
+            </a>
+        </p>
+    @endif
 
     @if ($tool->images->isEmpty())
         <a href="{{ action('ToolsController@show', [$tool->id]) }}">
@@ -19,11 +27,5 @@
             <a href="{{ action('ToolsController@show', [$tool->id]) }}">{{ $tool->name }}</a>
         </h3>
         <p>{{ $tool->description }}<p>
-            @if (Auth::user() != null && Auth::user()->isAManager())
-        <p><a href="{{ action('ToolsController@edit', [$tool->id]) }}" role="button"
-              class="btn btn-md btn-warning">
-                Edit
-            </a></p>
-        @endif
     </div>
 </div>
