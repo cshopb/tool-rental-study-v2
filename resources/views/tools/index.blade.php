@@ -12,21 +12,24 @@
 
     <hr/>
 
+    <?php $pass = 1; ?>
     @foreach($tools as $tool)
-        <article>
-            <h2>
-                <a href="{{ action('ToolsController@show', [$tool->id]) }}">{{ $tool->name }}</a>
-            </h2>
+        @if ($pass == 4)
+            <?php
+                $pass   = 1;
+                $row    = "row";
+            ?>
+        @else
+            <?php
+                $pass++;
+                $row    = "";
+            ?>
+        @endif
 
-            <div class="body">{{ $tool->description }}</div>
-            @if (Auth::user() != null && Auth::user()->isAManager())
-                <div class="row">
-                    <a href="{{ action('ToolsController@edit', [$tool->id]) }}" role="button"
-                       class="btn btn-xs btn-warning">
-                        Edit
-                    </a>
-                </div>
-            @endif
-        </article>
+        <div class="{{ $row }}">
+            <div class="col-md-3">
+                @include('tools.partials._tool')
+            </div>
+        </div>
     @endforeach
 @endsection

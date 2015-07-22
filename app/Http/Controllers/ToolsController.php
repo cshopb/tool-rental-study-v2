@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Fileentry;
 use App\Http\Requests\ToolRequest;
 use App\Tag;
 use App\Tool;
@@ -11,9 +12,11 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
+use Symfony\Component\HttpFoundation\Response;
 
-class ToolsController extends Controller
-{
+class ToolsController extends Controller {
 
     /**
      * Create a new tools controller instance.
@@ -47,6 +50,7 @@ class ToolsController extends Controller
          * In this case the key is the ID and the value will be whatever is in the NAME field.
          */
         $tags = Tag::lists('name', 'id');
+
         return view('tools.create')->with('tags', $tags);
     }
 
@@ -66,7 +70,7 @@ class ToolsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return Response
      */
     public function show($id)
@@ -79,7 +83,7 @@ class ToolsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return Response
      */
     public function edit($id)
@@ -114,7 +118,7 @@ class ToolsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return Response
      */
     public function destroy($id)
@@ -132,6 +136,51 @@ class ToolsController extends Controller
     public function syncTags(Tool $tool, array $tags = null)
     {
         $tool->tags()->sync($tags);
+    }
+
+    /**
+     * Save the image for the given tool.
+     *
+     * @param $file
+     * @param Tool $tool
+     */
+    public function saveImage($file, Tool $tool)
+    {
+        $image = array('filename' => $file->getFilename(), 'mime' => $file->getClientMimeType());
+
+        $extension = $this->findExtension($image);
+        $imageName = $image['filename'] . '.' . $extension;
+
+        Storage::disk('local')->put($imageName, File::get($file));
+
+        $tool->images()->create($image);
+    }
+
+    /**
+     * Find the images for display for the given tool.
+     *
+     * Response explanation:
+     * http://laravel.com/docs/5.1/responses
+     *
+     * HttpStatusCode Enumeration
+     * https://msdn.microsoft.com/en-us/library/system.net.httpstatuscode.aspx
+     *
+     * @param $id
+     * @return $file
+     */
+    public function showImage($id)
+    {
+        $image = Fileentry::findOrFail($id);
+        $extension = $this->findExtension($image);
+        $file = Storage::disk('local')->get($image['filename']. '.' .$extension);
+
+        return ($file);
+
+        // this return was used in the tutorial but it is not working for me.
+        // I do not know why. But the return I used is fine.
+        // http://www.codetutorial.io/laravel-5-file-upload-storage-download/
+
+        //return (new Response($file, 200))->header('Content-Type', $image['mime']);
     }
 
     /*
@@ -159,13 +208,27 @@ class ToolsController extends Controller
 
         /*
          * we are not using the top commented command because we made a method
-         * that is doing it for us and it looks cleaner.
+         * in Tool.php that is doing it for us and it looks cleaner.
          */
         if ($request->input('tag_list') != null)
         {
             $this->syncTags($tool, $request->input('tag_list'));
         }
 
+        if ($request->hasFile('image'))
+        {
+            $this->saveImage($request->file('image'), $tool);
+        }
+
         return $tool;
+    }
+
+    /**
+     * @param $image
+     * @return string
+     */
+    public function findExtension($image)
+    {
+        return substr($image['mime'], strpos($image['mime'], '/') + 1, strlen($image['mime']));
     }
 }

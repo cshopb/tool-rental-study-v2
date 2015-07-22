@@ -1,11 +1,11 @@
 @extends('app')
 
 @section('content')
-    <h1>{{ $tool->name }}</h1>
-
-    <article>
-        {{ $tool->description }}
-    </article>
+    <div class="row">
+        <div class="col-md-12">
+            @include('tools.partials._tool')
+        </div>
+    </div>
 
     @unless($tool->tags->isEmpty())
         <h5>Tags:</h5>

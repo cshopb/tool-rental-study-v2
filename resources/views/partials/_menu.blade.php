@@ -2,7 +2,10 @@
 <div class="navbar navbar-inverse navbar-static-top">
     <div class="container">
         <!-- text that will appear as the name of the menu -->
-        <a href="/tools" class="navbar-brand">Pro-Technic</a>
+        <a href="/tools" class="navbar-brand">
+            <img src="{{ url('/img/navbar1.png') }}"
+                 alt="Pro-Technic" class="img-responsive" />
+        </a>
 
         <!-- this will create a button when the menu is collapsed and it will take all  -->
         <!-- the items from the collapseMenu -->

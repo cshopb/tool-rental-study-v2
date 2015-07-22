@@ -63,6 +63,16 @@ class Tool extends Model {
     }
 
     /**
+     * get the images with this tool.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function images()
+    {
+        return $this->hasMany('App\Fileentry');
+    }
+
+    /**
      * get the tags associated with the given tool.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany

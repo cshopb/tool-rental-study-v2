@@ -19,14 +19,15 @@ Route::get('/', function ()
 });
 
 
-// routs for our Tools controller.
+// routes for Tools controller.
 Route::resource('tools', 'ToolsController');
+Route::get('tools/image/{image}', 'ToolsController@showImage');
 
 // routes for Roles controller
 Route::get('roles', 'RolesController@index');
 Route::patch('roles/{user}', 'RolesController@update');
 
-// route for Tags controller
+// routes for Tags controller
 Route::get('tags', 'TagsController@index');
 Route::get('tags/create', 'TagsController@create');
 Route::post('tags', 'TagsController@store');

@@ -26,6 +26,7 @@ class ToolRequest extends Request {
         return [
             'name'        => 'required|min:3',
             'description' => 'required',
+            'image'       => 'mimes:jpeg,bmp,png',
         ];
     }
 }

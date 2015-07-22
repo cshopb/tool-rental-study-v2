@@ -19,6 +19,11 @@
 </div>
 
 <div class="form-group">
+    {!! Form::label('image', 'Tool Image:') !!}
+    {!! Form::file('image', null) !!}
+</div>
+
+<div class="form-group">
     {!! Form::submit($submitButtonText, ['class' => 'btn btn-primary form-control']) !!}
 </div>
 
