@@ -1,0 +1,10 @@
+.index-view {
+    max-height: 120px;
+    min-height: 120px;
+    overflow: hidden
+}
+
+.show-view {
+    max-height: 220px;
+    min-height: 220px;
+}

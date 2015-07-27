@@ -19,7 +19,7 @@ class CreateFileentriesTable extends Migration
             $table->string('mime');
             $table->timestamps();
 
-            $table->foreign('tool_id')->references('id')->on('tools');
+            $table->foreign('tool_id')->references('id')->on('tools')->onDelete('cascade');
         });
     }
 

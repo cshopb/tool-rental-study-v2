@@ -28,7 +28,8 @@
 
         <div class="{{ $row }}">
             <div class="col-md-3">
-                @include('tools.partials._tool')
+                <!-- show variable adds controls for carousel if true -->
+                @include('tools.partials._tool', ['show' => false])
             </div>
         </div>
     @endforeach

@@ -1,7 +1,3 @@
-<div class="panel-heading">
-    <h3>Tags</h3>
-</div>
-
 @if ($tags->isEmpty())
     <p class="col-md-12"> There are no tags registered.</p>
 @else

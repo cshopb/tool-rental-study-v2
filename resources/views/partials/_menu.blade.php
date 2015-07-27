@@ -29,6 +29,7 @@
                 <li class="{{ set_active('tools') }}"><a href="/tools">Tools</a></li>
                 @if (Auth::user() != null && Auth::user()->role_id == 1)
                     <li class="{{ set_active('roles') }}"><a href="/roles">User Permissions</a></li>
+                    <li class="{{ set_active('tags') }}"><a href="/tags">Tags</a></li>
                 @endif
             </ul>
 

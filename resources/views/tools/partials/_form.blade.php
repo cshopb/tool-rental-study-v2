@@ -20,7 +20,7 @@
 
 <div class="form-group">
     {!! Form::label('image', 'Tool Image:') !!}
-    {!! Form::file('image', null) !!}
+    {!! Form::file('image[]', ['multiple']) !!}
 </div>
 
 <div class="form-group">

@@ -123,7 +123,17 @@ class ToolsController extends Controller {
      */
     public function destroy($id)
     {
-        //
+        $tool = Tool::findOrFail($id);
+
+        $images = $tool->images;
+        foreach($images as $image)
+        {
+            Storage::disk('local')->delete($image->filename. '.' .$this->findExtension($image));
+        }
+
+        $tool->delete();
+
+        return redirect('tools');
     }
 
     /**
@@ -217,7 +227,11 @@ class ToolsController extends Controller {
 
         if ($request->hasFile('image'))
         {
-            $this->saveImage($request->file('image'), $tool);
+            $images = $request->file('image');
+            foreach ($images as $image)
+            {
+                $this->saveImage($image, $tool);
+            }
         }
 
         return $tool;
