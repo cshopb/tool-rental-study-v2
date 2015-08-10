@@ -34,6 +34,7 @@ class ToolRequest extends Request {
             'description' => 'required',
         ];
 
+        // makes the rule for each image that is attached to request
         $nbr = count($this->input('image'));
         for ($i = 0; $i < $nbr; $i ++)
         {

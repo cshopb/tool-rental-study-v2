@@ -23,6 +23,9 @@ Route::get('/', function ()
 Route::resource('tools', 'ToolsController');
 Route::get('tools/image/{image}', 'ToolsController@showImage');
 
+// routes for Renting controller
+Route::post('renting/{tool}', 'RentingController@store');
+
 // routes for Roles controller
 Route::get('roles', 'RolesController@index');
 Route::patch('roles/{user}', 'RolesController@update');

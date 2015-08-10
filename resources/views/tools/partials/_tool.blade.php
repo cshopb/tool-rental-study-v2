@@ -31,5 +31,19 @@
         <p {{($show == false) ? 'class=index-view' : ''}}>
             {{ $tool->description }}
         </p>
+
+        @if ($show == true)
+            @unless($tool->tags->isEmpty())
+                <h5>Tags:</h5>
+                <ul>
+                    @foreach($tool->tags as $tag)
+                        <li>{{ $tag->name }}</li>
+                    @endforeach
+                </ul>
+            @endunless
+
+            <!-- slider -->
+            @include('tools.partials._sliderBarAndRentButton')
+        @endif
     </div>
 </div>

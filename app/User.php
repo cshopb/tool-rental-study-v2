@@ -49,6 +49,11 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         return $this->belongsTo('App\Role');
     }
 
+    public function rentedTool()
+    {
+        return $this->belongsToMany('App\Tool', 'tool_user_rent')->withPivot('rented_at','return_at')->withTimestamps();
+    }
+
     public function isAManager()
     {
         $role = Auth::user()->role->name;

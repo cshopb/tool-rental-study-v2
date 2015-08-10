@@ -85,6 +85,11 @@ class Tool extends Model {
         return $this->belongsToMany('App\Tag')->withTimestamps();
     }
 
+    public function rentingUser()
+    {
+        return $this->belongsToMany('App\User', 'tool_user_rent')->withPivot('rented_at','return_at')->withTimestamps();
+    }
+
     /*
      * Get a list of tag IDs associated with the current tool.
      *

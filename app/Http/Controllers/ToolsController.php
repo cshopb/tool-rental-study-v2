@@ -33,9 +33,9 @@ class ToolsController extends Controller {
      */
     public function index()
     {
-        $tools = Tool::latest('published_at')->published()->get();
+        //$tools = Tool::latest('published_at')->published()->get();
 
-        return view('tools.index')->with('tools', $tools);
+        return view('tools.index');
     }
 
     /**
@@ -64,7 +64,9 @@ class ToolsController extends Controller {
     {
         $this->createTool($request);
 
-        return redirect('tools');
+        $message = 'New tool has been created.';
+
+        return view('tools.index')->with('message', $message);
     }
 
     /**
@@ -112,7 +114,9 @@ class ToolsController extends Controller {
             $this->syncTags($tool, $request->input('tag_list'));
         }
 
-        return redirect('tools');
+        $message = 'The Tool '. $tool->name .' has been edited successfully!';
+
+        return view('tools.index')->with('message', $message);
     }
 
     /**
@@ -133,7 +137,9 @@ class ToolsController extends Controller {
 
         $tool->delete();
 
-        return redirect('tools');
+        $message = 'Tool '. $tool->name. ' has been deleted.';
+
+        return view('tools.index')->with('message', $message);
     }
 
     /**
