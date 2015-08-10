@@ -16,7 +16,7 @@ class AppServiceProvider extends ServiceProvider
     {
         view()->share('message', null);
 
-        $tool = latest('published_at')->published()->get();
+        $tool = Tool::latest('published_at')->published()->get();
         view()->share('tool', $tool);
     }
 
